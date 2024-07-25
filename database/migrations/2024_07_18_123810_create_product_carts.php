@@ -13,7 +13,22 @@ return new class extends Migration
     {
         Schema::create('product_carts', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
+            $table->string('color', 200);
+            $table->string('size', 200);
+            // Foreign Key (profile email)
+            $table->string('email', 50);
+            // Products Relationship
+            $table->foreign('email')->references('email')->on('profiles')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            // Foreign Key (product id)
+            $table->unsignedBigInteger('product_id');
+            // Products Relationship
+            $table->foreign('product_id')->references('id')->on('products')
+                ->restrictOnDelete()
+                ->cascadeOnUpdate();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('updated_at')->useCurrent()->useCurrentOnUpdate();
         });
     }
 
